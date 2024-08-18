@@ -5,20 +5,18 @@
 // Сообщение номер 3
 // Сообщение номер 4
 // Сообщение номер 5
-const counter = () => {
-  let count = 1;
-  return (message = () => {
-    return count++;
-  });
-};
-const getMessage = counter();
-const interval = setInterval(() => {
-  console.log(`Message number ${getMessage()}`);
-}, 2000);
-setTimeout(() => {
-  clearInterval(interval);
-}, 10000);
 
+const getCountMessage = () => {
+  let count = 1;
+  const interval = setInterval(() => {
+    console.log(`Message number ${count}`);
+    count++;
+  }, 2000);
+  setTimeout(() => {
+    clearInterval(interval);
+  }, 10000);
+};
+getCountMessage();
 // Задание 2
 // Сделать виджет - цифровые часы, оформить по желанию.
 // Вам нужно будет каждую секунду запускать функцию, которая будет создавать новый объект Date и забирать из него необходимую информацию.
@@ -26,26 +24,27 @@ const hoursArrow = document.querySelector(".arrow-hours");
 const minutesArrow = document.querySelector(".arrow-minutes");
 const secondsArrow = document.querySelector(".arrow-seconds");
 
-const setSeconds = () => {
-  const seconds = new Date().getSeconds();
+const setSeconds = (date) => {
+  const seconds = date.getSeconds();
   return `${seconds * 6}deg`;
 };
-const setMinutes = () => {
-  const minutes = new Date().getMinutes();
+const setMinutes = (date) => {
+  const minutes = date.getMinutes();
   return minutes;
 };
-const setHours = () => {
-  const hours = new Date().getHours();
+const setHours = (date) => {
+  const hours = date.getHours();
   if (hours >= 12) {
-    return `${hours * 30 - 360 + setMinutes() * 0.5}deg`;
+    return `${hours * 30 - 360 + setMinutes(date) * 0.5}deg`;
   }
-  return `${hours * 30 + setMinutes() * 0.5}deg`;
+  return `${hours * 30 + setMinutes(date) * 0.5}deg`;
 };
 
 const parseTime = () => {
-  hoursArrow.style.rotate = setHours();
-  minutesArrow.style.rotate = `${setMinutes() * 6}deg`;
-  secondsArrow.style.rotate = setSeconds();
+  const date = new Date();
+  hoursArrow.style.rotate = setHours(date);
+  minutesArrow.style.rotate = `${setMinutes(date) * 6}deg`;
+  secondsArrow.style.rotate = setSeconds(date);
 };
 setInterval(parseTime, 1000);
 
